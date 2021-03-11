@@ -4,6 +4,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,6 +35,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 /**
  * Implements testing of the CarController class.
@@ -91,11 +94,9 @@ public class CarControllerTest {
      */
     @Test
     public void listCars() throws Exception {
-        /**
-         * TODO: Add a test to check that the `get` method works by calling
-         *   the whole list of vehicles. This should utilize the car from `getCar()`
-         *   below (the vehicle will be the first in the list).
-         */
+
+        mvc.perform(get("/cars").accept(MediaType.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
+        verify(carService, times(1)).list();
 
     }
 
@@ -109,6 +110,13 @@ public class CarControllerTest {
          * TODO: Add a test to check that the `get` method works by calling
          *   a vehicle by ID. This should utilize the car from `getCar()` below.
          */
+        Car car = getCar();
+        mvc.perform(
+                get("/cars/1")
+                                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                    .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+
     }
 
     /**
@@ -122,6 +130,9 @@ public class CarControllerTest {
          *   when the `delete` method is called from the Car Controller. This
          *   should utilize the car from `getCar()` below.
          */
+        Car car = getCar();
+        ResultActions resultActions = mvc.perform(delete(new URI("/cars/1")).accept(MediaType.APPLICATION_JSON_UTF8)).andExpect(status().isNoContent());
+
     }
 
     /**
