@@ -8,9 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * TODO: Convert the application from a REST API to a microservice.
  */
 @SpringBootApplication
-public class MicroServiceApplication {
+public class PricingServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MicroServiceApplication.class, args);
+        SpringApplication.run(PricingServiceApplication.class, args);
     }
 }
 
